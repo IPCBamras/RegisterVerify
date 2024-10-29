@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตรวจสอบรายชื่อ</title>
+    <!-- เพิ่ม Font Awesome 6 Kit แบบเต็ม -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            margin: 0;
+            background: linear-gradient(135deg, #f6f8fd 0%, #f0f2f5 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: #1a237e;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #666;
+            font-weight: 300;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .containers {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            padding: 4rem 2rem;
+            gap: 2rem;
+            max-width: 1500px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(33.333% - 2rem);
+            min-height: 450px;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .left-container::before {
+            background: #1976d2;
+        }
+
+        .middle-container::before {
+            background: #388e3c;
+        }
+
+        .right-container::before {
+            background: #d32f2f;
+        }
+        .quota-container::before {
+            background: #F6BE00;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .container h2 {
+            color: #333;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 1.5rem 0;
+            line-height: 1.3;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon {
+            font-size: 3rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-container .icon {
+            color: #1976d2;
+        }
+
+        .middle-container .icon {
+            color: #388e3c;
+        }
+
+        .right-container .icon {
+            color: #d32f2f;
+        }
+        .quota-container .icon {
+            color: #F6BE00;
+        }
+
+        .description {
+            color: #666;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            font-weight: 300;
+            flex-grow: 1;
+            height: auto; /* ปรับเป็นอัตโนมัติให้พอดีกับข้อความ */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center; /* กึ่งกลางข้อความในกรณีที่ข้อความยาว */
+        }        
+
+        .check-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-top: auto;
+        }
+
+        .check-button::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(255,255,255,0.2);
+            transition: width 0.3s ease;
+        }
+
+        .check-button:hover::after {
+            width: 100%;
+        }
+
+        .left-container .check-button {
+            background-color: #1976d2;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.2);
+        }
+
+        .middle-container .check-button {
+            background-color: #388e3c;
+            box-shadow: 0 4px 15px rgba(56, 142, 60, 0.2);
+        }
+
+        .right-container .check-button {
+            background-color: #d32f2f;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+        }
+        .quota-container .check-button {
+            background-color: #F6BE00;
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.2);
+        }
+
+        .check-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 300;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+            border-top: 6px solid #1976d2; /* สีและขนาดของกรอบด้านบน */
+            margin-top: auto; /* ทำให้ footer อยู่ที่ด้านล่าง */
+        }
+        html {
+            height:100%;
+          }
+          
+          body {
+            margin:0;
+          }
+          
+          .bg {
+            animation:slide 3s ease-in-out infinite alternate;
+            background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+            bottom:0;
+            left:-50%;
+            opacity:.5;
+            position:fixed;
+            right:-50%;
+            top:0;
+            z-index:-1;
+          }
+          
+          .bg2 {
+            animation-direction:alternate-reverse;
+            animation-duration:4s;
+          }
+          
+          .bg3 {
+            animation-duration:5s;
+          }
+          
+          .content {
+            background-color:rgba(255,255,255,.8);
+            border-radius:.25em;
+            box-shadow:0 0 .25em rgba(0,0,0,.25);
+            box-sizing:border-box;
+            left:50%;
+            padding:10vmin;
+            position:fixed;
+            text-align:center;
+            top:50%;
+            transform:translate(-50%, -50%);
+          }
+          
+          h1 {
+            font-family:monospace;
+          }
+          
+          @keyframes slide {
+            0% {
+              transform:translateX(-25%);
+            }
+            100% {
+              transform:translateX(25%);
+            }
+          }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .containers {
+                padding: 3rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .containers {
+                flex-direction: column;
+                padding: 2rem 1rem;
+            }
+
+            .container {
+                width: 100%;
+                min-height: auto;
+                margin-bottom: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .icon {
+                font-size: 2.5rem;
+                height: 3.5rem;
+            }
+            
+            .container h2 {
+                font-size: 1.5rem;
+                height: auto;
+                margin: 1rem 0;
+            }
+            
+            .description {
+                font-size: 1rem;
+                height: auto;
+                margin: 1rem 0;
+            }
+            
+            .check-button {
+                font-size: 1.1rem;
+                padding: 0.875rem 1.75rem;
+            }
+            
+        .icon {
+            font-size: 3rem;
+            height: 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .icon i {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .left-container .icon {
+            color: #1976d2;
+        }
+
+        .middle-container .icon {
+            color: #388e3c;
+        }
+
+        .right-container .icon {
+            color: #d32f2f;
+        }
+        .quota-container .icon {
+            color: #F6BE00;
+        }
+
+        /* เพิ่ม animation สำหรับไอคอน */
+        @keyframes iconPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .container:hover .icon i {
+            animation: iconPulse 1s infinite;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ระบบตรวจสอบรายชื่อ</h1>
+        <h2>หลักสูตรระยะสั้นขั้นพื้นฐานสำหรับ แพทย์ เภสัชกร พยาบาล และนักเทคนิคการแพทย์ ครั้งที่ 19 <br>เรื่อง “การป้องกันและควบคุมการติดเชื้อในโรงพยาบาล” </h2>
+        <h3>ระหว่างวันที่ 17 - 28 กุมภาพันธ์ 2568 ณ โรงแรมแกรนด์ริชมอนด์ จ. นนทบุรี</h3> 
+    </div>
+    
+    <div class="containers">
+        <div class="container left-container">
+            <div class="icon">
+                <i class="fa-solid fa-users-viewfinder"></i>
+            </div>
+            <h2>รายชื่อหลักสูตร<br>แพทย์ และ เภสัชกร</h2>
+            <p class="description">อบรมระหว่าง<br>วันที่ 17 - 19 กุมภาพันธ์ 2568</p>
+            <a href="med.html" class="check-button">
+                ตรวจสอบรายชื่อ
+            </a>
+        </div>
+
+        <div class="container middle-container">
+            <div class="icon">
+                <i class="fa-solid fa-user-check"></i>
+            </div>
+            <h2>รายชื่อหลักสูตร<br>นักเทคนิคการแพทย์</h2>
+            <p class="description">อบรมระหว่าง<br>วันที่ 17 - 21 กุมภาพันธ์ 2568</p>
+            <a href="med.html" class="check-button">
+                ตรวจสอบรายชื่อ
+            </a>
+        </div>
+
+        <div class="container right-container">
+            <div class="icon">
+                <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+            <h2>รายชื่อหลักสูตร พยาบาล</h2>
+            <p class="description">อบรมระหว่าง<br>วันที่ 17 - 28 กุมภาพันธ์ 2568</p>
+            <a href="your-link-3" class="check-button">
+                ตรวจสอบรายชื่อ
+            </a>
+        </div>
+        <div class="container quota-container">
+            <div class="icon">
+                <i class="fa-solid fa-file-alt"></i>
+            </div>
+            <h2>รายชื่อ โควตา</h2>
+            <p class="description">อบรมระหว่าง<br>วันที่ 17 - 28 กุมภาพันธ์ 2568</p>
+            <a href="your-link-4" class="check-button">
+                ตรวจสอบรายชื่อ
+            </a>
+        </div>
+            <div class="bg"></div>
+            <div class="bg bg2"></div>
+            <div class="bg bg3"></div>
+        </div>
+    </div>
+
+    <!-- เพิ่ม script เพื่อตรวจสอบการโหลดไอคอน -->
+    <script>
+        window.onload = function() {
+            // ตรวจสอบว่าไอคอนโหลดสมบูรณ์หรือไม่
+            const icons = document.querySelectorAll('.icon i');
+            icons.forEach(icon => {
+                if (getComputedStyle(icon).content === '') {
+                    // ถ้าไอคอนไม่โหลด ใช้ไอคอนสำรอง
+                    icon.className = 'fa-solid fa-users';
+                }
+            });
+        }
+    </script>
+    <!-- เพิ่มส่วนท้ายของหน้า -->
+    <footer class="footer">
+        <p>&copy; สำนักงานป้องกัน ควบคุมโรคติดเชื้อและเชื้อดื้อยาต้านจุลชีพในโรงพยาบาล สถาบันบำราศนราดูร (IPC&AMR) สถานที่ 38 อาคารเฉลิมพระเกียรติ ชั้น 6 สถาบันบำราศนราดูร ตำบลตลาดขวัญ อำเภอเมือง นนทบุรี 11000
+<br>โทร (สำนักงาน) 02 5903652 โทรสาร 02 5903443 e-mail: ipc.amrprogram@gmail.com สงวนลิขสิทธิ์.</p>
+    </footer>
+</body>
+</html>
