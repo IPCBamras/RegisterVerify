@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ตรวจสอรายชื่อผู้ลงทะเบียน - หลักสูตร แพทย์และเภสัชกร</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;700&display=swap');
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #3b82f6;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+          }
+          
+          .wrapper {
+            height: 100vh;
+            width: 100vw;
+            background: linear-gradient(180deg, #04fafd, 5%, #119dff, 50%, #030423);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            overflow: hidden;
+          }
+          .wrapper h1 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            font-family: sans-serif;
+            letter-spacing: 1px;
+            word-spacing: 2px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: 888;
+            text-transform: uppercase;
+          }
+          .wrapper div {
+            height: 60px;
+            width: 60px;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            border-radius: 50px;
+            position: absolute;
+            animation: 4s linear infinite;
+          }
+          div .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            position: absolute;
+            top: 20%;
+            right: 20%;
+          }
+          .header {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-radius: 10px; /* กำหนดความโค้งมน */
+        }
+          .wrapper div:nth-child(1) {
+            top: 20%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+          }
+          .wrapper div:nth-child(2) {
+            top: 60%;
+            left: 80%;
+            animation: animate 10s linear infinite;
+          }
+          .wrapper div:nth-child(3) {
+            top: 40%;
+            left: 40%;
+            animation: animate 3s linear infinite;
+          }
+          .wrapper div:nth-child(4) {
+            top: 66%;
+            left: 30%;
+            animation: animate 7s linear infinite;
+          }
+          .wrapper div:nth-child(5) {
+            top: 90%;
+            left: 10%;
+            animation: animate 9s linear infinite;
+          }
+          .wrapper div:nth-child(6) {
+            top: 30%;
+            left: 60%;
+            animation: animate 5s linear infinite;
+          }
+          .wrapper div:nth-child(7) {
+            top: 70%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+          }
+          .wrapper div:nth-child(8) {
+            top: 75%;
+            left: 60%;
+            animation: animate 10s linear infinite;
+          }
+          .wrapper div:nth-child(9) {
+            top: 50%;
+            left: 50%;
+            animation: animate 6s linear infinite;
+          }
+          .wrapper div:nth-child(10) {
+            top: 45%;
+            left: 20%;
+            animation: animate 10s linear infinite;
+          }
+          .wrapper div:nth-child(11) {
+            top: 10%;
+            left: 90%;
+            animation: animate 9s linear infinite;
+          }
+          .wrapper div:nth-child(12) {
+            top: 20%;
+            left: 70%;
+            animation: animate 7s linear infinite;
+          }
+          .wrapper div:nth-child(13) {
+            top: 20%;
+            left: 20%;
+            animation: animate 8s linear infinite;
+          }
+          .wrapper div:nth-child(14) {
+            top: 60%;
+            left: 5%;
+            animation: animate 6s linear infinite;
+          }
+          .wrapper div:nth-child(15) {
+            top: 90%;
+            left: 80%;
+            animation: animate 9s linear infinite;
+          }
+          @keyframes animate {
+            0% {
+              transform: scale(0) translateY(0) rotate(70deg);
+            }
+            100% {
+              transform: scale(1.3) translateY(-100px) rotate(360deg);
+            }
+          }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Mali', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            font-family: 'Mali', sans-serif;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .controls {
+            background: var(--card-background);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+            font-family: 'Mali', sans-serif;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            font-family: 'Mali', sans-serif;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            font-family: 'Mali', sans-serif;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            min-width: 200px;
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Mali', sans-serif;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .table-container {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+        }
+
+        .registration-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            min-width: 800px;
+        }
+
+        .registration-table th {
+            background-color: #f8fafc;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+        }
+
+        .registration-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .registration-table tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .hospital-name {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .province-tag {
+            background-color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        
+
+        .pagination button {
+            padding: 0.75rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            background-color: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .pagination button:hover:not([disabled]) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .pagination button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination button[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+    /* For Desktop (width 1024px and up) */
+    @media (min-width: 1024px) {
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+        }
+
+        .controls, .table-container {
+            padding: 1.5rem;
+        }
+
+        .pagination button {
+            padding: 0.75rem 1.25rem;
+        }
+    }
+
+    /* For Tablets (width between 768px and 1023px) */
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .container {
+            padding: 1rem;
+            max-width: 90%;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+        }
+
+        .controls, .table-container {
+            padding: 1rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+    }
+
+       /* เพิ่มการตั้งค่าที่ปรับการแสดงผลสำหรับอุปกรณ์มือถือ */
+       @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+
+        .filters {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-select {
+            width: 100%;
+        }
+
+        .table-container {
+            max-width: 100%;
+            overflow-x: auto; /* เปิดการเลื่อนซ้ายขวาในจอเล็ก */
+        }
+
+        .registration-table {
+            font-size: 0.9rem; /* ลดขนาดฟอนต์เล็กน้อยในมือถือ */
+            min-width: 600px; /* ทำให้คอลัมน์ในตารางไม่ถูกบีบมากเกินไป */
+        }
+
+        .header h1 {
+            font-size: 1.8rem; /* ปรับขนาดหัวข้อให้เหมาะสม */
+        }
+
+        .header h2 {
+            font-size: 1.3rem;
+        }
+    }
+
+    /* สำหรับหน้าจอขนาดเล็กมาก เช่น มือถือแนวตั้ง */
+    @media (max-width: 480px) {
+        .header h1 {
+            font-size: 1.5rem;
+        }
+
+        .header h2 {
+            font-size: 1.1rem;
+        }
+
+        .search-box input {
+            padding: 0.75rem 1rem 0.75rem 2.5rem; /* ปรับระยะห่างในกล่องค้นหา */
+        }
+
+        .filter-select {
+            padding: 0.5rem 0.75rem; /* ลดระยะห่างในฟิลเตอร์ */
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: var(--warning-color);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+        <div><span class="dot"></span></div>
+      </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>ตรวจสอบรายชื่อการลงทะเบียน</h1>
+            <h2>*หลักสูตร แพทย์และเภสัชกร*</h2>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="ค้นหาจากชื่อ, โรงพยาบาล, หรือจังหวัด..." oninput="searchData()">
+            </div>
+            <div class="filters">
+                <select class="filter-select province-select" onchange="searchData()">
+                    <option value="">เลือกจังหวัด</option>
+                </select>
+                <select class="filter-select sort-select" onchange="searchData()">
+                    <option value="">เรียงตามชื่อ</option>
+                    <option value="asc">ก-ฮ</option>
+                    <option value="desc">ฮ-ก</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="registration-table">
+                <thead>
+                    <tr>
+                        <th>คำนำหน้า</th>
+                        <th>ชื่อ</th>
+                        <th>โรงพยาบาล/สถาบัน</th>
+                        <th>จังหวัด</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- Data will be populated here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be populated here -->
+        </div>
+    </div>
+    
+
+    <script>
+        const SHEET_ID = '1d1h876-RHYarb8tBJGWndJ5gT91P_W_3a2Y4_YN6hmk';
+const ITEMS_PER_PAGE = 50;
+let allData = [];
+let filteredData = [];
+let currentPage = 1;
+
+async function fetchSheetData() {
+    try {
+        const response = await fetch(`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const text = await response.text();
+        // Split by new line and handle potential quoted values correctly
+        const rows = text.split('\n').map(row => {
+            // Use regex to handle quoted values that might contain commas
+            return row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g)
+                .map(cell => cell.replace(/^"|"$/g, '').trim());
+        });
+        
+        // Remove header row
+        rows.shift();
+
+        // Map to the correct columns (A=0, B=1, C=2, D=3)
+        allData = rows.map(row => {
+            return [
+                row[0] || '', // คำนำหน้า (Column A)
+                row[1] || '', // ชื่อ-นามสกุล (Column B)
+                row[2] || '', // ชื่อโรงพยาบาล/สถาบัน (Column C)
+                row[3] || ''  // จังหวัด (Column D)
+            ];
+        }).filter(row => row.every(cell => cell)); // Remove rows with empty cells
+
+        filteredData = [...allData];
+        
+        updateProvinceDropdown(allData);
+        displayTable();
+        createPagination();
+        
+        // Log for debugging
+        console.log('Fetched data:', allData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('table-body').innerHTML = 
+            `<tr><td colspan="4">Error loading data: ${error.message}</td></tr>`;
+    }
+}
+
+function createTableRow(rowData) {
+    // Escape HTML to prevent XSS
+    const escapeHtml = (text) => {
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    };
+
+    return `<tr>
+        <td>${escapeHtml(rowData[0])}</td>
+        <td>${escapeHtml(rowData[1])}</td>
+        <td class="hospital-name">${escapeHtml(rowData[2])}</td>
+        <td><span class="province-tag">${escapeHtml(rowData[3])}</span></td>
+    </tr>`;
+}
+
+function displayTable() {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const paginatedData = filteredData.slice(start, end);
+    
+    if (paginatedData.length === 0) {
+        document.getElementById('table-body').innerHTML = 
+            '<tr><td colspan="4">ไม่พบข้อมูล</td></tr>';
+    } else {
+        document.getElementById('table-body').innerHTML = 
+            paginatedData.map(createTableRow).join('');
+    }
+}
+
+function updateProvinceDropdown(data) {
+    const provinces = [...new Set(data.map(row => row[3]))].sort();
+    const dropdownHtml = ['<option value="">เลือกจังหวัด</option>']
+        .concat(provinces.map(province => 
+            `<option value="${province}">${province}</option>`))
+        .join('');
+    document.querySelector('.province-select').innerHTML = dropdownHtml;
+}
+
+function searchData() {
+    const searchTerm = document.querySelector('.search-box input').value.toLowerCase();
+    const provinceFilter = document.querySelector('.province-select').value;
+    const sortOrder = document.querySelector('.sort-select').value;
+
+    filteredData = allData.filter(row => {
+        const matchesSearch = row.some(cell => 
+            cell.toLowerCase().includes(searchTerm));
+        const matchesProvince = !provinceFilter || 
+            row[3].toLowerCase() === provinceFilter.toLowerCase();
+        return matchesSearch && matchesProvince;
+    });
+
+    if (sortOrder) {
+        filteredData.sort((a, b) => {
+            return sortOrder === 'asc' 
+                ? a[1].localeCompare(b[1], 'th') 
+                : b[1].localeCompare(a[1], 'th');
+        });
+    }
+
+    currentPage = 1;
+    createPagination();
+    displayTable();
+}
+
+function createPagination() {
+    const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    if (totalPages <= 1) return;
+
+    // Previous button
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Previous';
+    prevButton.disabled = currentPage === 1;
+    prevButton.onclick = () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayTable();
+            createPagination();
+        }
+    };
+    pagination.appendChild(prevButton);
+
+    // Page buttons
+    for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.classList.toggle('active', i === currentPage);
+        pageButton.onclick = () => {
+            currentPage = i;
+            displayTable();
+            createPagination();
+        };
+        pagination.appendChild(pageButton);
+    }
+
+    // Next button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next';
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.onclick = () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            displayTable();
+            createPagination();
+        }
+    };
+    pagination.appendChild(nextButton);
+}
+
+// Initial load
+fetchSheetData();
+    </script>
+</body>
+</html>
